@@ -1,0 +1,7 @@
+{
+  "API_KEY": "your-api-key-here",
+  "DNS_API_URL": "http://dns-server/api/update-record",
+  "DEFAULT_DOMAIN": "home.local",
+  "hostname_prefix": "",
+  "hostname_suffix": ""
+}

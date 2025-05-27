@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<PLUGIN name="dns-watcher" author="Marco Addario" version="1.0" min="6.9.0">
+  <Author>Marco Addario</Author>
+  <Description>Auto-register DNS records in Technitium for Docker containers</Description>
+  <Category>Network</Category>
+  <Support>https://github.com/marcoaddario/dns-watcher</Support>
+  <pluginURL>https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.plg</pluginURL>
+  <Icon>globe</Icon>
+  <Config Name="ConfigPage" Target="/plugins/dns-watcher" />
+
+  <Install>
+    cp dns-watcher.py /usr/local/sbin/dns-watcher.py
+    chmod +x /usr/local/sbin/dns-watcher.py
+    mkdir -p /boot/config/plugins/dns-watcher
+    cp config.json.example /boot/config/plugins/dns-watcher/config.json
+    /usr/local/sbin/dns-watcher.py &
+  </Install>
+
+  <Uninstall>
+    pkill -f dns-watcher.py
+    rm -f /usr/local/sbin/dns-watcher.py
+  </Uninstall>
+</PLUGIN>
