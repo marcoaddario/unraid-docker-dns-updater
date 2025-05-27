@@ -4,27 +4,27 @@
   <Description>Automatically register A/CNAME records for Docker containers in Technitium DNS</Description>
   <Category>Network</Category>
   <Support>https://github.com/marcoaddario/dns-watcher-unraid</Support>
-  <PluginURL>https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.plg</PluginURL>
+  <PluginURL>https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/dns-watcher.plg</PluginURL>
   <Icon>globe</Icon>
   <Config Name="ConfigPage" Target="/plugins/dns-watcher" />
 
   <Install>
     # Download and install Python script
     mkdir -p /usr/local/sbin
-    wget -qO /usr/local/sbin/dns-watcher.py https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.py
+    wget -qO /usr/local/sbin/dns-watcher.py https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/dns-watcher.py
     chmod +x /usr/local/sbin/dns-watcher.py
 
     # Create config directory and default config
     mkdir -p /boot/config/plugins/dns-watcher
     if [ ! -f /boot/config/plugins/dns-watcher/config.json ]; then
-      wget -qO /boot/config/plugins/dns-watcher/config.json https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/config.json.example
+      wget -qO /boot/config/plugins/dns-watcher/config.json https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/config.json.example
     fi
 
     # Download WebUI files
     mkdir -p /usr/local/emhttp/plugins/dns-watcher
-    wget -qO /usr/local/emhttp/plugins/dns-watcher/dns-watcher.page.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/dns-watcher.page.php
-    wget -qO /usr/local/emhttp/plugins/dns-watcher/save.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/save.php
-    wget -qO /usr/local/emhttp/plugins/dns-watcher/restart.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/restart.php
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/dns-watcher.page.php https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/emhttp/plugins/dns-watcher/dns-watcher.page.php
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/save.php https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/emhttp/plugins/dns-watcher/save.php
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/restart.php https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/emhttp/plugins/dns-watcher/restart.php
 
     # Start if not running
     pgrep -f dns-watcher.py > /dev/null || /usr/local/sbin/dns-watcher.py &
