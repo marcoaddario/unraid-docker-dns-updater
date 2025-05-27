@@ -1,23 +1,39 @@
 <?xml version="1.0"?>
-<PLUGIN name="dns-watcher" author="Marco Addario" version="1.0" min="6.9.0">
+<PLUGIN name="dns-watcher" author="Marco Addario" version="1.0.0" min="7.0.0">
   <Author>Marco Addario</Author>
-  <Description>Auto-register DNS records in Technitium for Docker containers</Description>
+  <Description>Automatically register A/CNAME records for Docker containers in Technitium DNS</Description>
   <Category>Network</Category>
-  <Support>https://github.com/marcoaddario/dns-watcher</Support>
-  <pluginURL>https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.plg</pluginURL>
+  <Support>https://github.com/marcoaddario/dns-watcher-unraid</Support>
+  <PluginURL>https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.plg</PluginURL>
   <Icon>globe</Icon>
   <Config Name="ConfigPage" Target="/plugins/dns-watcher" />
 
   <Install>
-    cp dns-watcher.py /usr/local/sbin/dns-watcher.py
+    # Download and install Python script
+    mkdir -p /usr/local/sbin
+    wget -qO /usr/local/sbin/dns-watcher.py https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/dns-watcher.py
     chmod +x /usr/local/sbin/dns-watcher.py
+
+    # Create config directory and default config
     mkdir -p /boot/config/plugins/dns-watcher
-    cp config.json.example /boot/config/plugins/dns-watcher/config.json
-    /usr/local/sbin/dns-watcher.py &
+    if [ ! -f /boot/config/plugins/dns-watcher/config.json ]; then
+      wget -qO /boot/config/plugins/dns-watcher/config.json https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/config.json.example
+    fi
+
+    # Download WebUI files
+    mkdir -p /usr/local/emhttp/plugins/dns-watcher
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/dns-watcher.page.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/dns-watcher.page.php
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/save.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/save.php
+    wget -qO /usr/local/emhttp/plugins/dns-watcher/restart.php https://raw.githubusercontent.com/marcoaddario/dns-watcher-unraid/main/emhttp/plugins/dns-watcher/restart.php
+
+    # Start if not running
+    pgrep -f dns-watcher.py > /dev/null || /usr/local/sbin/dns-watcher.py &
   </Install>
 
   <Uninstall>
     pkill -f dns-watcher.py
     rm -f /usr/local/sbin/dns-watcher.py
+    rm -rf /usr/local/emhttp/plugins/dns-watcher
+    rm -rf /boot/config/plugins/dns-watcher
   </Uninstall>
 </PLUGIN>
