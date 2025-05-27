@@ -27,7 +27,7 @@
     wget -qO /usr/local/emhttp/plugins/dns-watcher/restart.php https://raw.githubusercontent.com/marcoaddario/unraid-docker-dns-updater/master/emhttp/plugins/dns-watcher/restart.php
 
     # Start if not running
-    pgrep -f dns-watcher.py > /dev/null || /usr/local/sbin/dns-watcher.py &
+    pgrep -f dns-watcher.py > /dev/null || /usr/local/sbin/dns-watcher.py &amp;
   </Install>
 
   <Uninstall>
